@@ -107,5 +107,8 @@
     "presets": [
       "react-app"
     ]
+  },
+  "devDependencies": {
+    "babel-plugin-import": "^1.10.0"
   }
 }
