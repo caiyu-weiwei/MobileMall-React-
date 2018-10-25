@@ -96,6 +96,9 @@ const getStyleLoaders = (cssOptions, preProcessor) => {
   return loaders;
 };
 
+function resolvePath(dir) {
+  return path.join(__dirname, '..', dir)
+}
 // This is the production configuration.
 // It compiles slowly and is focused on producing a fast and minimal bundle.
 // The development configuration is different and lives in a separate file.
@@ -215,6 +218,7 @@ module.exports = {
       // Support React Native Web
       // https://www.smashingmagazine.com/2016/08/a-glimpse-into-the-future-with-react-native-for-web/
       'react-native': 'react-native-web',
+      '@': resolvePath('src')
     },
     plugins: [
       // Adds support for installing with Plug'n'Play, leading to faster installs and adding

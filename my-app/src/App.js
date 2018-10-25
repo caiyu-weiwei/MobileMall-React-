@@ -3,8 +3,9 @@ import {
   BrowserRouter as Router,
   Route,
   Link,
-  withRouter
+  // withRouter
 } from 'react-router-dom'
+import { Button } from 'antd-mobile'
 const BasicExample = () => (
   <Router>
     <div>
@@ -25,6 +26,7 @@ const BasicExample = () => (
        <Route exact path="/" component={Home}/>
        <Route path="/about" component={About}/>
        <Route path="/topics" component={Topics}/>
+       <Button type="primary">Topics</Button>
     </div>
   </Router>
 )
