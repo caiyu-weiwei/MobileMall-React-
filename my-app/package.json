@@ -4,6 +4,7 @@
   "private": true,
   "dependencies": {
     "@babel/core": "7.1.0",
+    "@babel/runtime": "^7.1.2",
     "@svgr/webpack": "2.4.1",
     "antd-mobile": "^2.2.5",
     "babel-core": "7.0.0-bridge.0",
@@ -110,6 +111,8 @@
     ]
   },
   "devDependencies": {
-    "babel-plugin-import": "^1.10.0"
+    "@babel/plugin-transform-runtime": "^7.1.0",
+    "babel-plugin-import": "^1.10.0",
+    "react-app-rewired": "^1.6.2"
   }
 }

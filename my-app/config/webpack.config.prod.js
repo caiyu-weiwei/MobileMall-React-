@@ -300,6 +300,7 @@ module.exports = {
                     },
                   },
                 ],
+                ["import", { libraryName: "antd-mobile", style: "css" }] // `style: true` 会加载 less 文件
               ],
               cacheDirectory: true,
               // Save disk space when time isn't as important
