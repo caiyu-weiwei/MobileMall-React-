@@ -59,6 +59,9 @@ const getStyleLoaders = (cssOptions, preProcessor) => {
         ],
       },
     },
+    {
+      loader: require.resolve('less-loader') // compiles Less to CSS
+    }
   ];
   if (preProcessor) {
     loaders.push(require.resolve(preProcessor));

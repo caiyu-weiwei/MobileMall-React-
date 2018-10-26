@@ -84,6 +84,9 @@ const getStyleLoaders = (cssOptions, preProcessor) => {
         sourceMap: shouldUseSourceMap,
       },
     },
+    {
+      loader: require.resolve('less-loader') // compiles Less to CSS
+    }
   ];
   if (preProcessor) {
     loaders.push({
