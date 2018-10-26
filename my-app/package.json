@@ -123,6 +123,7 @@
     "less-loader": "^4.1.0",
     "react-app-rewired": "^1.6.2",
     "redux-devtools-extension": "^2.13.5",
+    "redux-devtools-log-monitor": "^1.4.0",
     "redux-logger": "^3.0.6"
   },
   "homepage": "."
