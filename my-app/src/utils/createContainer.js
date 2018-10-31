@@ -6,6 +6,9 @@ import { connect } from 'react-redux'
  * @param  {Component?}
  * @return {Connect : Container}
  */
-export default function createContainer (mapStateToProps, mapDispatchToProps, component) {
-  return connect(mapStateToProps, mapDispatchToProps) (component)
+function createContainer (mapStateToProps, mapDispatchToProps, component) {
+  const connectComponent = connect(mapStateToProps, mapDispatchToProps)
+  return component ? connectComponent(component) : connectComponent
 }
+
+export default createContainer
