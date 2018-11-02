@@ -1,0 +1,13 @@
+.music-tab{
+  background-color: #212121;
+}
+.tabs-item{
+  display: 'flex';
+  align-items: 'center';
+  justify-content: 'center';
+  height: '250px';
+  background-color: '#212121';
+}
+.am-tabs-default-bar-underline{
+  border: 1px solid transparent;
+}
