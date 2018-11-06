@@ -36,7 +36,7 @@ class Carousel extends Component {
       autoplay: {
         delay: 3000,
         stopOnLastSlide: false,
-        disableOnInteraction: true
+        disableOnInteraction: false
       },
       pagination: {
         el: '.swiper-pagination'
@@ -70,8 +70,8 @@ class Carousel extends Component {
               ))
             }
           </div>
+          <div className="swiper-pagination"></div>
         </div>
-        <div className="swiper-pagination"></div>
       </div>
     )
   }
