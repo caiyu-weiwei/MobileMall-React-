@@ -1,15 +1,14 @@
-import fetch from 'cross-fetch'
-import { URL } from './config.js'
+import jsonp  from './jsonp'
+import { URL, PARAM, OPTION } from './config.js'
 
 export async function getCarousel() {
-  return await fetch(
-    URL.carousel,
-    {
-      method: "post",
-      mode: "cors",
-      headers: {
-        'content-type':'application/x-www-form-urlencoded'
-      }
-    }
-  )
+  const data = Object.assign({}, PARAM, {
+		g_tk: 701075963,
+		uin: 0,
+		platform: "h5",
+		needNewCode: 1,
+		_: new Date().getTime()
+	})
+
+  return await jsonp(URL.carousel, data, OPTION)
 }
