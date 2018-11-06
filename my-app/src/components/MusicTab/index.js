@@ -1,12 +1,12 @@
 import React, { Component } from 'react'
 import { Tabs, WhiteSpace  } from 'antd-mobile'
 import { StickyContainer, Sticky } from 'react-sticky'
+import Recommend from '@/components/Recommend'
+import Rinking from '@/components/Rinking'
+import Search from '@/components/Search'
 import './index.css'
 
 class MusicTab extends Component {
-  constructor () {
-    super ()
-  }
 
   renderTabBar(props) {
     return (
@@ -29,21 +29,13 @@ class MusicTab extends Component {
         <StickyContainer>
           <Tabs
             tabs={this.tabs}
-            renderTabBar={this.renderTabBar}
             tabBarUnderlineStyle={{borderBottom:'1px solid #FFD500'}}
             tabBarBackgroundColor="#212121"
-            tabBarActiveTextColor="#FFD700"
-            
+            tabBarActiveTextColor="#FFD700"  
           >
-            <div className="tabs-item">
-              Content of first tab
-            </div>
-            <div className="tabs-item">
-              Content of second tab
-            </div>
-            <div className="tabs-item">
-              Content of third tab
-            </div>
+            <Recommend></Recommend>
+            <Rinking></Rinking>
+            <Search></Search>
           </Tabs>
         </StickyContainer>
       </div>
