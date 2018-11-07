@@ -18,7 +18,7 @@ class Scroll extends Component{
 
   // 组件更新后，如果实例化了better-scroll并且需要刷新就调用refresh()函数
   componentDidUpdate() {
-    if (this.bScroll && this.props.refresh === true) {
+    if (this.bScroll && this.props.refresh) {
       this.bScroll.refresh()
     }
   }
