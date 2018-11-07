@@ -13,7 +13,9 @@ class Scroll extends Component{
         click: this.props.click
       })
     }
-    if (this.props.onScroll) this.bScroll.on('scroll', scroll => this.props.onScroll(scroll))
+    if (this.props.onScroll) this.bScroll.on('scroll', () => {
+      this.props.onScroll()
+    })
   }
 
   // 组件更新后，如果实例化了better-scroll并且需要刷新就调用refresh()函数
