@@ -15,7 +15,7 @@ class Albums extends Component {
 
   // 获取新专辑数据源
   componentDidMount() {
-    let winHeight = document.documentElement.clientHeight - 185 + 'px'
+    let winHeight = document.documentElement.clientHeight - 335 + 'px'
     ReactDom.findDOMNode(this.refs.scrollContainer).style.height = winHeight
     getNewAlbums()
     .then(res => {
@@ -40,9 +40,9 @@ class Albums extends Component {
   render() {
     return (
       <div className="scroll-container" ref="scrollContainer">
+        <h1 className="album-title">最新专辑</h1>
         <Scroll refresh={this.state.refreshScroll}>
           <div className="new-albums" >
-            <h1 className="album-title">最新专辑</h1>
             {
               this.state.newAlbums.map(item => (
                 <div className="album" key={item.album_id}>
