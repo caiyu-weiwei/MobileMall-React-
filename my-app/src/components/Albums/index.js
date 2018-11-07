@@ -1,16 +1,22 @@
 import React, { Component } from 'react'
 import { getNewAlbums } from '@/api/recommend'
+import ReactDom from 'react-dom'
 import './index.css'
+import Scroll from '@/common/Scroll'
+import { filterSingers } from './config.js'
 class Albums extends Component {
   constructor() {
     super()
     this.state = {
-      newAlbums: []
+      newAlbums: [],
+      refreshScroll: false
     }
   }
 
   // 获取新专辑数据源
   componentDidMount() {
+    let winHeight = document.documentElement.clientHeight - 185 + 'px'
+    ReactDom.findDOMNode(this.refs.scrollContainer).style.height = winHeight
     getNewAlbums()
     .then(res => {
       console.log(res)
@@ -21,34 +27,38 @@ class Albums extends Component {
         })
         this.setState({
           newAlbums: albumsList
+        }, () => {
+          this.setState({
+            refreshScroll: true
+          })
         })
       }
       
     })
   }
 
-  filterSingers(singers) {
-    let singerArray = singers.map(singer => singer.singer_name)
-    return singerArray.join('/')
-  }
   render() {
     return (
-      <div className="new-albums">
-      <h1 className="album-title">最新专辑</h1>
-        {
-          this.state.newAlbums.map(item => (
-            <div className="album" key={item.album_id}>
-              <div className="album-img">
-                <img src={`http://y.gtimg.cn/music/photo_new/T002R300x300M000${item.album_mid}.jpg?max_age=2592000`} alt="专辑"/>
-              </div>
-              <div className="album-text">
-                <div className="album-name">{item.album_name}</div>
-                <div className="singer-name">{this.filterSingers(item.singers)}</div>
-                <div className="public-time">{item.public_time}</div>
-              </div>
-            </div>
-          ))
-        }
+      <div className="scroll-container" ref="scrollContainer">
+        <Scroll refresh={this.state.refreshScroll}>
+          <div className="new-albums" >
+            <h1 className="album-title">最新专辑</h1>
+            {
+              this.state.newAlbums.map(item => (
+                <div className="album" key={item.album_id}>
+                  <div className="album-img">
+                    <img src={`http://y.gtimg.cn/music/photo_new/T002R300x300M000${item.album_mid}.jpg?max_age=2592000`} alt="专辑"/>
+                  </div>
+                  <div className="album-text">
+                    <div className="album-name">{item.album_name}</div>
+                    <div className="singer-name">{filterSingers(item.singers)}</div>
+                    <div className="public-time">{item.public_time}</div>
+                  </div>
+                </div>
+              ))
+            }
+          </div>
+        </Scroll>
       </div>
     )
   }
