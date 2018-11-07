@@ -4,12 +4,14 @@ import ReactDom from 'react-dom'
 import './index.css'
 import Scroll from '@/common/Scroll'
 import { filterSingers } from './config.js'
+import Loading from '@/common/Loading'
 class Albums extends Component {
   constructor() {
     super()
     this.state = {
       newAlbums: [],
-      refreshScroll: false
+      refreshScroll: false,
+      loading: true
     }
   }
 
@@ -26,7 +28,8 @@ class Albums extends Component {
           return new Date(b.public_time).getTime() - new Date(a.public_time).getTime()
         })
         this.setState({
-          newAlbums: albumsList
+          newAlbums: albumsList,
+          loading: false
         }, () => {
           this.setState({
             refreshScroll: true
@@ -59,6 +62,7 @@ class Albums extends Component {
             }
           </div>
         </Scroll>
+        <Loading isShow={this.state.loading}></Loading>
       </div>
     )
   }

@@ -8,7 +8,7 @@ class Loading extends Component{
     return(
       <div className="loading-container" style={displayStyle}>
         <div className="loading-wrapper">
-          <img src={loadingImg} alt="loading" width="18px" height="18px"/>
+          <img src={loadingImg} alt="loading" width="20px" height="20px"/>
           <div className="loading-title">{this.props.title?this.props.title:null}</div>
         </div>
       </div>
