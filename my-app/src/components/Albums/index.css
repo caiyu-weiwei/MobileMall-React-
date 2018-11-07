@@ -1,0 +1,38 @@
+
+.album-title{
+  width: 100%;
+  height: 50px;
+  line-height: 50px;
+  text-align: center;
+  font-size: 15px;
+  color: #FFD700;
+  font-weight: 400;
+}
+.album{
+  width: 100%;
+  height: 60px;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  margin: 0 0 20px 0;
+}
+.album-img{
+  width: 24%;
+  text-align: center;
+}
+.album-img img{
+  height: 100%;
+}
+.album-text{
+  font-size: 15px;
+}
+.album-name,
+.singer-name,
+.public-time{
+  height: 20px;
+  line-height: 20px;
+  color: #7E7E7E;
+}
+.album-name{
+  color: #fff;
+}

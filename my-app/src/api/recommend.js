@@ -13,7 +13,7 @@ export async function getCarousel() {
   return await jsonp(URL.carousel, data, OPTION)
 }
 
-export async function getNewAlbum() {
+export async function getNewAlbums() {
 	const data = Object.assign({}, PARAM, {
 		g_tk: 1278911659,
 		hostUin: 0,
