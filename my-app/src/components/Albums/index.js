@@ -54,7 +54,7 @@ class Albums extends Component {
   }
 
   render() {
-    let {match} = this.props.route
+    const {match} = this.props.route
     console.log('match', match)
     return (
       <div className="scroll-container" ref="scrollContainer">
