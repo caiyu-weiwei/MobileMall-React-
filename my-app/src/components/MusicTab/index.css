@@ -22,3 +22,10 @@
   color: #FFD700;
   border-bottom: 1px solid #FFD700;
 }
+.music-view{
+  position: fixed;
+  top: 87px;
+  left: 0;
+  right: 0;
+  bottom: 52px;
+}

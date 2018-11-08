@@ -22,7 +22,7 @@ class MusicTab extends Component {
               <NavLink to="/search" className="nav-link">搜索</NavLink>
             </div>
           </div>
-          <div>
+          <div className="music-view">
             <Switch>
               <Route path="/recommend" component={Recommend}></Route>
               <Route path="/rinking" component={Rinking}></Route>
