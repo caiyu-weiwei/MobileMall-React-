@@ -1,6 +1,7 @@
 import jsonp  from './jsonp'
 import { URL, PARAM, OPTION } from './config.js'
 
+// 轮播图数据请求
 export async function getCarousel() {
   const data = Object.assign({}, PARAM, {
 		g_tk: 701075963,
@@ -13,6 +14,7 @@ export async function getCarousel() {
   return await jsonp(URL.carousel, data, OPTION)
 }
 
+// 最新专辑数据请求
 export async function getNewAlbums() {
 	const data = Object.assign({}, PARAM, {
 		g_tk: 1278911659,
@@ -29,4 +31,16 @@ export async function getNewAlbums() {
 		prefix: "callback"
 	}
 	return await jsonp(URL.newalbum, data, option)
+}
+
+// 专辑详情数据请求
+export async function getAlbumInfo(albumMid) {
+	const data = Object.assign({}, PARAM, {
+		albummid: albumMid,
+		g_tk: 1278911659,
+		hostUin: 0,
+		platform: "yqq",
+		needNewCode: 0
+	})
+	return await jsonp(URL.albumInfo, data, OPTION)
 }
