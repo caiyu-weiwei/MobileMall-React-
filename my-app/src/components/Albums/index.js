@@ -22,8 +22,10 @@ class Albums extends Component {
   // 获取新专辑数据源
   componentDidMount() {
     console.log('this.props', this.props)
+    // 计算高度
     let winHeight = document.documentElement.clientHeight - 335 + 'px'
     ReactDom.findDOMNode(this.refs.scrollContainer).style.height = winHeight
+    // 获取专辑列表数据源
     getNewAlbums()
     .then(res => {
       console.log(res)
@@ -45,8 +47,14 @@ class Albums extends Component {
     })
   }
 
+  handlerClick(url) {
+    return () => {
+      this.props.route.history.push({pathname:url})
+    }
+  }
+
   render() {
-    let {match} = this.props
+    let {match} = this.props.route
     console.log('match', match)
     return (
       <div className="scroll-container" ref="scrollContainer">
@@ -57,7 +65,7 @@ class Albums extends Component {
           <div className="new-albums" >
             {
               this.state.newAlbums.map(item => (
-                <div className="album" key={item.album_id}>
+                <div className="album" key={item.album_id} onClick={this.handlerClick(`${match.url + '/' + item.album_mid}`)}>
                   <LazyLoad>
                     <div className="album-img">
                       <img src={`http://y.gtimg.cn/music/photo_new/T002R300x300M000${item.album_mid}.jpg?max_age=2592000`} alt="专辑"/>
@@ -74,7 +82,7 @@ class Albums extends Component {
           </div>
         </Scroll>
         <Loading title="拼命加载中..." isShow={this.state.loading}></Loading>
-        {/*<Route path={`${match.url + '/:id'}`} component={AlbumInfo}></Route>*/}
+        <Route path={`${match.url}/:id`} component={AlbumInfo}></Route>
         
       </div>
     )

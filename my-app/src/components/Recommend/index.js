@@ -5,11 +5,14 @@ import Albums from '@/components/Albums'
 
 class Recommend extends Component {
 
+  componentDidMount() {
+    console.log('this.props', this.props)
+  }
   render () {
     return (
       <div className="recommend-music">
         <Carousel></Carousel>
-        <Albums></Albums>
+        <Albums route={this.props}></Albums>
       </div>
     )
   }
