@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import { Route } from 'react-router-dom'
 import { getNewAlbums } from '@/api/recommend'
 import ReactDom from 'react-dom'
 import './index.css'
@@ -7,9 +8,10 @@ import { filterSingers } from './config.js'
 import Loading from '@/common/Loading'
 // 通过查阅react-lazyload的github的使用说明，发现提供了一个forceCheck函数，当元素没有通过scroll或者resize事件加载时强制检查元素位置，这个时候如果出现在屏幕内就会被立即加载。借助Scroll组件暴露的onScroll属性就可以监听到Scroll组件的滚动
 import LazyLoad, { forceCheck } from 'react-lazyload'
+import AlbumInfo from '@/components/AlbumInfo'
 class Albums extends Component {
-  constructor() {
-    super()
+  constructor(props) {
+    super(props)
     this.state = {
       newAlbums: [],
       refreshScroll: false,
@@ -19,6 +21,7 @@ class Albums extends Component {
 
   // 获取新专辑数据源
   componentDidMount() {
+    console.log('this.props', this.props)
     let winHeight = document.documentElement.clientHeight - 335 + 'px'
     ReactDom.findDOMNode(this.refs.scrollContainer).style.height = winHeight
     getNewAlbums()
@@ -43,6 +46,8 @@ class Albums extends Component {
   }
 
   render() {
+    let {match} = this.props
+    console.log('match', match)
     return (
       <div className="scroll-container" ref="scrollContainer">
         <h1 className="album-title">最新专辑</h1>
@@ -68,7 +73,9 @@ class Albums extends Component {
             }
           </div>
         </Scroll>
-        <Loading isShow={this.state.loading}></Loading>
+        <Loading title="拼命加载中..." isShow={this.state.loading}></Loading>
+        {/*<Route path={`${match.url + '/:id'}`} component={AlbumInfo}></Route>*/}
+        
       </div>
     )
   }

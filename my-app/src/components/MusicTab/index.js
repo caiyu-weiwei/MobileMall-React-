@@ -1,6 +1,4 @@
 import React, { Component } from 'react'
-import { Tabs, WhiteSpace  } from 'antd-mobile'
-import { StickyContainer, Sticky } from 'react-sticky'
 import Recommend from '@/components/Recommend'
 import Rinking from '@/components/Rinking'
 import Search from '@/components/Search'
@@ -9,39 +7,21 @@ import { BrowserRouter as Router, Route, Switch, Redirect, NavLink } from 'react
 
 class MusicTab extends Component {
 
-  renderTabBar(props) {
-    return (
-      <Sticky>
-      {({ style }) => <div style={{ ...style, zIndex: 1 }}><Tabs.DefaultTabBar {...props} /></div>}
-    </Sticky>
-    )
-  }
-
-  tabs = [
-    { title: '推荐' },
-    { title: '排行榜' },
-    { title: '搜索' },
-  ]
-
   render () {
     return (
       <Router>
         <div className="music-tab">
-          <WhiteSpace />
-          <StickyContainer>
-
-            <div className="music-tabs">
-              <div className="tabs-item">
-                <NavLink to="/recommend" className="nav-link">推荐</NavLink>
-              </div>
-              <div className="tabs-item">
-                <NavLink to="/rinking" className="nav-link">排行榜</NavLink>
-              </div>
-              <div className="tabs-item">
-                <NavLink to="/search" className="nav-link">搜索</NavLink>
-              </div>
+          <div className="music-tabs">
+            <div className="tabs-item">
+              <NavLink to="/recommend" className="nav-link">推荐</NavLink>
             </div>
-          </StickyContainer>
+            <div className="tabs-item">
+              <NavLink to="/rinking" className="nav-link">排行榜</NavLink>
+            </div>
+            <div className="tabs-item">
+              <NavLink to="/search" className="nav-link">搜索</NavLink>
+            </div>
+          </div>
           <div>
             <Switch>
               <Route path="/recommend" component={Recommend}></Route>

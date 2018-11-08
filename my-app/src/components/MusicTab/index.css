@@ -12,8 +12,6 @@
 .tabs-item{
   flex: 1;
   text-align: center;
-  height: '250px';
-  
 }
 .nav-link{
   display: block;
@@ -23,7 +21,4 @@
 .nav-link.active{
   color: #FFD700;
   border-bottom: 1px solid #FFD700;
-}
-.am-tabs-default-bar-underline{
-  border: 1px solid transparent;
 }
