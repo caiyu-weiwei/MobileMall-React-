@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import './App.css'
 import logo from '@/assets/imgs/logo.png'
 import '@/assets/stylus/reset.styl'
+import '@/assets/stylus/font.styl'
 import MusicTab from '@/components/MusicTab'
 
 class App extends Component {

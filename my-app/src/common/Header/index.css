@@ -1,0 +1,19 @@
+.header-container{
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 55px;
+}
+.header-back{
+  position: absolute;
+  top: 10px;
+}
+.header-title{
+  text-align: center;
+  font-size: 18px;
+  margin-top: 18px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
