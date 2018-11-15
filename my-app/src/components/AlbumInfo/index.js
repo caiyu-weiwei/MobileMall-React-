@@ -7,6 +7,7 @@ import { filterSingers } from './config.js'
 import player from './player.png'
 import Scroll from '@/common/Scroll'
 import {CSSTransition} from "react-transition-group"
+import { getSongVKey } from '@/api/song.js'
 import './index.css'
 
 class AlbumInfo extends Component{
@@ -46,6 +47,7 @@ class AlbumInfo extends Component{
       })
   }
 
+  // 监听滚动
   scroll = ({y}) => {
     let albumImg = ReactDOM.findDOMNode(this.refs.albumImg)
     let ablumCover = ReactDOM.findDOMNode(this.refs.ablumCover)
@@ -58,6 +60,14 @@ class AlbumInfo extends Component{
       albumImg.style['transform'] = scale
       albumImg.style['webkitTransform'] = scale
     }
+  }
+
+  // 获取歌曲vkey
+  getSongUrl = (song, mId) => {
+    getSongVKey(mId)
+      .then(res => {
+        console.log(res)
+      })
   }
 
   render() {

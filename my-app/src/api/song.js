@@ -1,7 +1,7 @@
 import jsonp from "./jsonp"
 import {URL, PARAM} from "./config"
 
-export function getSongVKey(songMid) {
+export async function getSongVKey(songMid) {
 	const data = Object.assign({}, PARAM, {
 		g_tk: 1278911659,
 		hostUin: 0,
@@ -17,5 +17,5 @@ export function getSongVKey(songMid) {
 		param: "callback",
 		prefix: "callback"
 	};
-	return jsonp(URL.songVkey, data, option);
+	return await jsonp(URL.songVkey, data, option);
 }
