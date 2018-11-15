@@ -53,6 +53,10 @@ class AlbumInfo extends Component{
     if (y < 0) {
       let opacity = Math.abs(y) / albumImg.offsetHeight
       ablumCover.style.opacity = opacity
+    } else {
+      let scale = `scale(${1 + y*.004}, ${1 + y*.004})`
+      albumImg.style['transform'] = scale
+      albumImg.style['webkitTransform'] = scale
     }
   }
 
