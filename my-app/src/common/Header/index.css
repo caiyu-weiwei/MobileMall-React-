@@ -4,6 +4,9 @@
   left: 0;
   right: 0;
   height: 55px;
+  z-index: 1111;
+  background-color: #212121;
+  color: #FFD700;
 }
 .header-back{
   position: absolute;

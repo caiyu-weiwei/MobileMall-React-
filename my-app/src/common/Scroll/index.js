@@ -13,8 +13,8 @@ class Scroll extends Component{
         click: this.props.click
       })
     }
-    if (this.props.onScroll) this.bScroll.on('scroll', () => {
-      this.props.onScroll()
+    if (this.props.onScroll) this.bScroll.on('scroll', ({x, y}) => {
+      this.props.onScroll({x, y})
     })
   }
 

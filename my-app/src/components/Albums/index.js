@@ -61,7 +61,6 @@ class Albums extends Component {
 
   render() {
     const {match} = this.props.route
-    console.log('match', match)
     return (
       <div className="scroll-container" ref="scrollContainer">
         <h1 className="album-title">最新专辑</h1>

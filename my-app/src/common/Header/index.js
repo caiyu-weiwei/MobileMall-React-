@@ -13,7 +13,7 @@ class Header extends Component {
         <div className="header-back" onClick={this.handlerClickBack}>
           <Icon type="left" size="lg"/>
         </div>
-        <div className="header-title">1212</div>
+        <div className="header-title">{this.props.headerTitle}</div>
       </div>
     )
   }

@@ -4,6 +4,90 @@
   left: 0;
   right: 0;
   bottom: 0;
+  z-index: 100;
   background-color: #212121;
+}
+.album-wrapper>.album-img{
+  width: 100%;
+  position: relative;
+  top: 55px;
+  left: 0;
+}
+.album-cover{
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 111;
+  background-color: #fff;
+  opacity: 0;
+}
+.album-wrapper>.album-img>img{
+  width: 100%;
+  height: 250px;
+}
+.player-container{
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  position: fixed;
+}
+.album-player{
+  width: 120px;
+  padding: 8px 0;
+  display: inline-block;
+  color: #FFD700;
+  border: 1px solid #FFD700;
+  border-radius: 15px;
+  -webkit-border-radius: 15px;
+  -moz-border-radius: 15px;
+  -ms-border-radius: 15px;
+  -o-border-radius: 15px;
+  display: flex;
+  justify-content: center;
+}
+.album-player>img{
+  margin-right: 10px;
+}
+.album-scroll{
+  width: 100%;
+  position: absolute;
+  bottom: 52px;
+  left:0;
   z-index: 999;
+}
+.album-scroll .scroll-view{
+  overflow: visible;
+}
+.album-brief{
+  width: 100%;
+  padding: 20px 0;
+  background-color: #212121;
+}
+.album-brief>div{
+  width: 90%;
+  margin: 0 auto;
+}
+.album-num>span{
+  display: inline-block;
+  margin-right: 5px;
+}
+.song-list{
+  font-size: 15px;
+  margin-top: 20px;
+  color: #EAEAEA;
+}
+.song-singer{
+  color: #A6A5A6;
+  margin-top: 5px;
+}
+.album-describe{
+  width: 100%;
+}
+.album-describe>h2{
+  text-align: center;
+}
+.album-describe{
+  font-size: 14px;
 }
