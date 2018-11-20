@@ -7,7 +7,10 @@ import * as ActionTypes from './actionTypes.js'
  * actions.js存放要操作的对象，必须有一个type属性表示要执行的操作。当应用规模越来越大的时候最好分模块定义
  */
 
-// Action创建函数，用来创建action对象。使用action创建函数更容易被移植和测试
+/**
+ * Action创建函数，用来创建action对象。使用action创建函数更容易被移植和测试
+ * @param {*} showStatus 
+ */
 
 export function showPlayer(showStatus) {
   return {type: ActionTypes.SHOW_PLAYER, showStatus}

@@ -12,8 +12,8 @@ import './index.css'
 
 class AlbumInfo extends Component{
 
-  constructor() {
-    super()
+  constructor(props) {
+    super(props)
     this.state = {
       albumInfo: {},
       loading: true,
@@ -21,7 +21,9 @@ class AlbumInfo extends Component{
       refresh: false
     }
   }
-  // 获取专辑详情的数据源
+  /**
+   * 获取专辑详情的数据源
+   */
   componentDidMount() {
     this.setState({
       show: true
@@ -47,7 +49,9 @@ class AlbumInfo extends Component{
       })
   }
 
-  // 监听滚动
+  /**
+   * 监听滚动
+   */
   scroll = ({y}) => {
     let albumImg = ReactDOM.findDOMNode(this.refs.albumImg)
     let ablumCover = ReactDOM.findDOMNode(this.refs.ablumCover)
@@ -62,7 +66,9 @@ class AlbumInfo extends Component{
     }
   }
 
-  // 获取歌曲vkey
+  /**
+   * 获取歌曲vkey
+   */
   getSongUrl = (song, mId) => {
     getSongVKey(mId)
       .then(res => {
@@ -70,13 +76,24 @@ class AlbumInfo extends Component{
       })
   }
 
+  /**
+   * 选择歌曲
+   */
+  selectSong = song =>{
+    return () => {
+      console.log(this.props)
+      console.log('song', song)
+      this.props.changeSong(song)
+      this.props.setSongs([song])
+    }
+  }
   render() {
     let albumInfo = this.state.albumInfo
     console.log('albumInfo', this.state.albumInfo)
     console.log('list', this.state.albumInfo.list)
     if (albumInfo && albumInfo.list) {
       this.songs = albumInfo.list.map(song => (
-        <div className="song-list" key={song.songmid}>
+        <div className="song-list" key={song.songmid} onClick={this.selectSong(song)}>
           <div className="song-name">{song.albumname}</div>
           <div className="song-singer">{filterSingers(song.singer)}</div>
         </div>

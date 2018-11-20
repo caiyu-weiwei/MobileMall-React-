@@ -8,7 +8,7 @@ import { filterSingers } from './config.js'
 import Loading from '@/common/Loading'
 // 通过查阅react-lazyload的github的使用说明，发现提供了一个forceCheck函数，当元素没有通过scroll或者resize事件加载时强制检查元素位置，这个时候如果出现在屏幕内就会被立即加载。借助Scroll组件暴露的onScroll属性就可以监听到Scroll组件的滚动
 import LazyLoad, { forceCheck } from 'react-lazyload'
-import AlbumInfo from '@/components/AlbumInfo'
+import AlbumInfo from '@/containers/AlbumInfo'
 import { Toast } from 'antd-mobile'
 class Albums extends Component {
   constructor(props) {

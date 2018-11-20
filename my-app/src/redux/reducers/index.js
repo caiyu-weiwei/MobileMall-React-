@@ -26,7 +26,7 @@ function showStatus(showStatus = initialState.showStatus, action) {
 }
 
 // 修改当前歌曲
-function changeSong(song = initialState.song, action) {
+function song(song = initialState.song, action) {
   switch(action.type) {
     case ActionTypes.CHANGE_SONG:
       return action.song
@@ -36,7 +36,7 @@ function changeSong(song = initialState.song, action) {
 }
 
 // 设置歌曲列表
-function setSongs(songs = initialState.songs, action) {
+function songs(songs = initialState.songs, action) {
   switch(action.type) {
     case ActionTypes.SET_SONGS:
       return action.songs
@@ -47,8 +47,8 @@ function setSongs(songs = initialState.songs, action) {
 
 const Reducer = combineReducers({
   showStatus,
-  changeSong,
-  setSongs
+  song,
+  songs
 })
 
 export default Reducer
