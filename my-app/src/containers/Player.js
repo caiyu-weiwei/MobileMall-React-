@@ -1,7 +1,7 @@
 import { connect } from 'react-redux'
 import Player from '@/components/Player'
 import { showPlayer, changeSong } from '@/redux/actions'
-import store from '../redux/store'
+// import store from '../redux/store'
 
 
 const mapStateToProps = state => {
