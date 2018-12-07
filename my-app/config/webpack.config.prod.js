@@ -44,8 +44,8 @@ if (env.stringified['process.env'].NODE_ENV !== '"production"') {
 }
 
 // style files regexes
-const cssRegex = /\.(css|less)$/;
-const cssModuleRegex = /\.module\.(css|less)$/;
+const cssRegex = /\.(css|less|styl)$/;
+const cssModuleRegex = /\.module\.(css|less|styl)$/;
 const sassRegex = /\.(scss|sass)$/;
 const sassModuleRegex = /\.module\.(scss|sass)$/;
 

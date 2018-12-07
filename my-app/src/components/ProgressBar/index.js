@@ -7,12 +7,14 @@ import './index.css'
  * Progress组件接收进度（progress），是否禁用按钮（disableButton），是否禁用拖拽（disableDrag），开始拖拽回调函数（onDragStart），拖拽中回调函数（onDrag）和拖拽接受回调函数（onDragEnd）等属性
  */
 class Progress extends Component{
+
   componentDidMount() {
     let { disableButton, disableDrag, onDragStart, onDrag, onDragEnd } = this.props
     let progressBarDom =ReactDOM.findDOMNode(this.refs.progressBar)
     let progressDom = ReactDOM.findDOMNode(this.refs.progress)
     let progressBtnDom = ReactDOM.findDOMNode(this.refs.progressBtn)
     this.progressBarWidth = progressBarDom.offsetWidth
+    console.log('componentDidMount', this.progressBarWidth)
 
     /**
      * 拖拽初始位置
@@ -72,6 +74,7 @@ class Progress extends Component{
    * 如果未获取进度条的宽度，可以通过组件更新后再次获取
    */
   componentDidUpdate() {
+    console.log('componentDidUpdate', this.progressBarWidth)
     if (!this.progressBarWidth) this.progressBarWidth = ReactDOM.findDOMNode(this.refs.progressBar).offsetWidth
   }
 

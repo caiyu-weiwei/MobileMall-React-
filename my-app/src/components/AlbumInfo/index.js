@@ -6,6 +6,7 @@ import Loading from '@/common/Loading'
 import { filterSingers } from './config.js'
 import player from './player.png'
 import Scroll from '@/common/Scroll'
+import Player from '@/components/Player'
 import {CSSTransition} from "react-transition-group"
 import { getSongVKey } from '@/api/song.js'
 import './index.css'
@@ -134,8 +135,11 @@ class AlbumInfo extends Component{
                 </div>
               </Scroll>
             </div>
+
+            <Player></Player>
           </div>
           <Loading isShow={this.state.loading} title="拼命加载中..."></Loading>
+          
         </div>
       </CSSTransition>
     )
