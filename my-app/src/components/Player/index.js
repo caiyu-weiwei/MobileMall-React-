@@ -18,7 +18,7 @@ class Player extends Component{
     /**
      * 播放模式 list - 列表播放 single - 单曲播放  shuffle - 随机播放
      */
-    this.playModels = ['list', 'single', 'shuffle']
+    this.playModels = [require('@/assets/imgs/list.svg'), require('@/assets/imgs/single.svg'), require('@/assets/imgs/shuffle.svg')]
 
     this.state = {
       currentTime: 0,
@@ -26,6 +26,11 @@ class Player extends Component{
       playStatus: false,
       currentPlayModel: 0
     }
+    this.playSvg = require('@/assets/imgs/play.svg')
+    this.pauseSvg = require('@/assets/imgs/pause.svg')
+    this.playOrPauseSvg = this.playSvg
+    this.playModelSvg = require('@/assets/imgs/list.svg')
+    this.currentPlayModel = 0
   }
 
   componentDidMount() {
@@ -35,9 +40,69 @@ class Player extends Component{
     this.playerBgDOM = ReactDOM.findDOMNode(this.refs.playerBg)
     this.audioDOM = ReactDOM.findDOMNode(this.refs.audio)
   }
+
+  /**
+   * 播放或暂停
+   */
+  playOrPause = () => {
+    if (!this.state.playStatus) {
+      this.playOrPauseSvg = this.pauseSvg
+      this.setState({
+        playStatus: true
+      })
+      this.startImgRotate()
+    } else {
+      this.playOrPauseSvg = this.playSvg
+      this.setState({
+        playStatus: false
+      })
+      this.stopImgRotate()
+    }
+  }
+
+  /**
+   * 播放模式切换
+   */
+  switchPlayModel = () => {
+    this.currentPlayModel++
+    if (this.currentPlayModel > 2) {
+      this.currentPlayModel = 0
+    }
+    this.setState({
+      currentPlayModel: this.currentPlayModel
+    })
+  }
+
+  /**
+   * 开始旋转图片
+   */
+  startImgRotate = () => {
+    console.log('className', this.singerImgDOM.className)
+    console.log('className', typeof this.singerImgDOM.className)
+    console.log('classList', this.singerImgDOM.classList)
+    if (this.singerImgDOM.className.indexOf('rotate') === -1) {
+      this.singerImgDOM.classList.add('rotate')
+    } else {
+      this.singerImgDOM.style['animation-play-state'] = 'running'
+      this.singerImgDOM.style['-webkit-animation-play-state'] = 'running'
+    }
+  }
+
+  /**
+   * 停止旋转图片
+   */
+  stopImgRotate = () => {
+    this.singerImgDOM.style['animation-play-state'] = 'paused'
+    this.singerImgDOM.style['-webkit-animation-play-state'] = 'paused'
+  }
+
   render() {
     let song = this.currentSong
     let playBg = song.img ? song.img : require('@/assets/imgs/play_bg.jpg')
+    let previousSvg = require('@/assets/imgs/previous.svg')
+    
+    let nextSvg = require('@/assets/imgs/next.svg')
+    let listPlaySvg = require('@/assets/imgs/list_play.svg')
     console.log('playBg', playBg)
     return (
       <div className="player-box">
@@ -61,11 +126,21 @@ class Player extends Component{
               </div>
 
               <div className="play-wrapper">
-                <div className="play-model-button"></div>
-                <div className="play-previous-button"></div>
-                <div className="play-button"></div>
-                <div className="play-next-button"></div>
-                <div className="play-list-button"></div>
+                <div className="play-model-button" onClick={this.switchPlayModel}>
+                  <img src={this.playModels[this.state.currentPlayModel]} alt="播放模式"/>
+                </div>
+                <div className="play-previous-button">
+                  <img src={previousSvg} alt=""/>
+                </div>
+                <div className="play-button" onClick = {this.playOrPause}>
+                  <img src={this.playOrPauseSvg} alt=""/>
+                </div>
+                <div className="play-next-button">
+                  <img src={nextSvg} alt=""/>
+                </div>
+                <div className="play-list-button">
+                  <img src={listPlaySvg} alt=""/>
+                </div>
               </div>
             </div>
           </div>

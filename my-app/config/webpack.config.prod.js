@@ -44,8 +44,8 @@ if (env.stringified['process.env'].NODE_ENV !== '"production"') {
 }
 
 // style files regexes
-const cssRegex = /\.(css|less|styl)$/;
-const cssModuleRegex = /\.module\.(css|less|styl)$/;
+const cssRegex = /\.(css|less)$/;
+const cssModuleRegex = /\.module\.(css|less)$/;
 const sassRegex = /\.(scss|sass)$/;
 const sassModuleRegex = /\.module\.(scss|sass)$/;
 
@@ -86,7 +86,10 @@ const getStyleLoaders = (cssOptions, preProcessor) => {
     },
     {
       loader: require.resolve('less-loader') // compiles Less to CSS
-    }
+    },
+    // {
+    //   loader: require.resolve('stylus-loader') // compiles stylus to CSS
+    // }
   ];
   if (preProcessor) {
     loaders.push({

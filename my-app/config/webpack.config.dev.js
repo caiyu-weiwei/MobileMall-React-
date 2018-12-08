@@ -26,8 +26,8 @@ const publicUrl = '';
 const env = getClientEnvironment(publicUrl);
 
 // style files regexes
-const cssRegex = /\.(css|less|styl)$/;
-const cssModuleRegex = /\.module\.(css|less|styl)$/;
+const cssRegex = /\.(css|less)$/;
+const cssModuleRegex = /\.module\.(css|less)$/;
 const sassRegex = /\.(scss|sass)$/;
 const sassModuleRegex = /\.module\.(scss|sass)$/;
 
@@ -35,6 +35,7 @@ const sassModuleRegex = /\.module\.(scss|sass)$/;
 const getStyleLoaders = (cssOptions, preProcessor) => {
   const loaders = [
     require.resolve('style-loader'),
+    // require.resolve('stylus-loader'),
     {
       loader: require.resolve('css-loader'),
       options: cssOptions,
