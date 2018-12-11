@@ -22,4 +22,7 @@ const mapDispatchToProps = dispatch => ({
   }
 })
 
+/**
+ * 将ui组件包装成容器组件
+ */
 export default connect(mapStateToProps, mapDispatchToProps)(Player)

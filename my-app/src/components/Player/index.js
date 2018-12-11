@@ -1,8 +1,9 @@
 import React, { Component } from 'react'
 import ReactDOM from 'react-dom'
+import { CSSTransition } from 'react-transition-group'
 import ProgressBar from '@/components/ProgressBar'
 import { Song } from '@/model/song.js'
-import './index.css'
+import './index.scss'
 
 class Player extends Component{
 
@@ -14,6 +15,10 @@ class Player extends Component{
      */
     this.currentSong = new Song(0, '', '', '', 0, '', '')
     this.currentIndex = 0
+    /**
+     * 拖拽进度
+     */
+    this.dragProgress = 0
 
     /**
      * 播放模式 list - 列表播放 single - 单曲播放  shuffle - 随机播放
@@ -39,24 +44,125 @@ class Player extends Component{
     this.singerImgDOM = ReactDOM.findDOMNode(this.refs.singerImg)
     this.playerBgDOM = ReactDOM.findDOMNode(this.refs.playerBg)
     this.audioDOM = ReactDOM.findDOMNode(this.refs.audio)
+
+    /**
+     * 当浏览器可以播放音频/视频时
+     */
+    this.audioDOM.addEventListener('canplay', () => {
+      this.audioDOM.play()
+      this.startImgRotate()
+      this.setState({
+        playStatus: true
+      })
+    })
+
+    /**
+     * 当目前的播放位置已更改时
+     */
+    this.audioDOM.addEventListener('timeupdate', () => {
+      console.log(333333333333)
+      console.log('timeupdate', this.audioDOM)
+      console.log('currentTime', this.audioDOM.currentTime)
+      console.log('duration', this.audioDOM.duration)
+      if (this.state.playStatus) {
+        this.setState({
+          currentTime: this.audioDOM.currentTime,
+          playProgress: this.audioDOM.currentTime / this.audioDOM.duration
+        })
+      }
+    })
+
+    /**
+     * 当目前的播放已结束时
+     */
+    this.audioDOM.addEventListener('ended', () => {
+      
+      if (this.props.songs.length > 1) {
+        let currentIndex = this.currentIndex
+        let songsLength = this.props.songs.length 
+        /**
+         * 列表播放模式
+         */
+        if (this.state.currentPlayModel === 0) {
+          if (currentIndex === songsLength - 1) {
+            currentIndex = 0
+          } else {
+            currentIndex += 1
+          }
+        }
+        /**
+         * 单曲循环播放模式
+         */
+        if (this.state.currentPlayModel === 1) {
+          /**
+           * 继续播放当前歌曲
+           */
+          this.audioDOM.play()
+        }
+        /**
+         * 随机播放模式
+         */
+        if (this.state.currentPlayModel === 2) {
+          currentIndex = parseInt(Math.random()*songsLength)
+        }
+        this.props.changeSong(this.props.songs[currentIndex])
+      } else {
+        /**
+         * 单曲循环播放模式
+         */
+        if (this.state.currentPlayModel === 1) {
+          /**
+           * 继续播放当前歌曲
+           */
+          this.audioDOM.play()
+        } else {
+          this.audioDOM.pause()
+          this.stopImgRotate()
+          this.setState({
+            currentTime: 0,
+            playProgress: 0,
+            playStatus: false
+          })
+        }
+      }
+    })
+
+    /**
+     * 在元素加载期间发生错误时运行脚本
+     */
+    this.audioDOM.addEventListener('error', (err) => {
+      console.log('error', err)
+      alert('加载歌曲出错！')
+    })
   }
+
+
 
   /**
    * 播放或暂停
    */
   playOrPause = () => {
     if (!this.state.playStatus) {
+      /**
+       * 第一次播放
+       */
+      if (this.first === undefined) {
+        this.audioDOM.src = this.currentSong.url
+        this.first = true
+      }
       this.playOrPauseSvg = this.pauseSvg
       this.setState({
         playStatus: true
       })
       this.startImgRotate()
+      this.audioDOM.play()
     } else {
       this.playOrPauseSvg = this.playSvg
       this.setState({
         playStatus: false
       })
       this.stopImgRotate()
+      this.audioDOM.pause()
     }
   }
 
@@ -80,7 +186,7 @@ class Player extends Component{
     console.log('className', this.singerImgDOM.className)
     console.log('className', typeof this.singerImgDOM.className)
     console.log('classList', this.singerImgDOM.classList)
-    if (this.singerImgDOM.className.indexOf('rotate') === -1) {
+    if (!this.singerImgDOM.classList.contains('rotate')) {
       this.singerImgDOM.classList.add('rotate')
     } else {
       this.singerImgDOM.style['animation-play-state'] = 'running'
@@ -96,6 +202,120 @@ class Player extends Component{
     this.singerImgDOM.style['-webkit-animation-play-state'] = 'paused'
   }
 
+  /**
+   * 上一首
+   */
+  previous = () => {
+    let songsLength = this.props.songs.length
+    let currentIndex = this.currentIndex
+    console.log('songsLength', songsLength)
+    console.log('currentIndex', currentIndex)
+    if (songsLength > 1) {
+
+      /**
+       * 列表播放模式
+       */
+      if (this.state.currentPlayModel === 0) {
+        if (currentIndex === 0) {
+          currentIndex = songsLength - 1
+        } else {
+          currentIndex -= 1
+        }
+      }
+
+      /**
+       * 单曲循环播放模式
+       */
+      if (this.state.currentPlayModel === 1) {
+        currentIndex = this.currentIndex
+      }
+
+      /**
+       * 随机播放模式
+       */
+      if (this.state.currentPlayModel === 2) {
+        currentIndex = parseInt(Math.random()*songsLength)
+      }
+      this.props.changeSong(this.props.songs[currentIndex])
+    }
+  }
+
+  /**
+   * 下一首
+   */
+  next = () => {
+    let currentIndex = this.currentIndex
+    let songsLength = this.props.songs.length
+    
+    if (songsLength > 1) {
+      /**
+       * 列表播放模式
+       */
+      if (this.state.currentPlayModel === 0) {
+        if (currentIndex === songsLength - 1) {
+          currentIndex = 0
+        } else {
+          currentIndex += 1
+        }
+      }
+
+      /**
+       * 单曲循环播放模式
+       */
+      if (this.state.currentPlayModel === 1) {
+        currentIndex = this.currentIndex
+      }
+
+      /**
+       * 随机播放模式
+       */
+      if (this.state.currentPlayModel === 2) {
+        currentIndex = parseInt(Math.random()*songsLength)
+      }
+    } else {
+      currentIndex = this.currentIndex
+      if (!songsLength) {
+        alert('当前播放列表中无歌曲，请先向播放列表中添加歌曲！')
+        return
+      }
+    }
+    this.props.changeSong(this.props.songs[currentIndex])
+  }
+
+  /**
+   * 拖拽
+   */
+  handlerDrag = (progress) => {
+    if (this.audioDOM.duration) {
+      this.audioDOM.pause()
+      this.stopImgRotate()
+      this.setState({
+        playStatus: false
+      })
+      this.dragProgress = progress
+    }
+  }
+  
+  /**
+   * 拖拽结束
+   */
+  handlerDragEnd = () => {
+    if (this.audioDOM.duration) {
+      let currentTime = this.audioDOM.duration*this.dragProgress
+      this.setState({
+        currentTime: currentTime,
+        playProgress: this.dragProgress
+      }, () => {
+        this.audioDOM.currentTime = currentTime
+        this.audioDOM.play()
+        this.startImgRotate()
+        this.setState({
+          playStatus: true
+        })
+      })
+    }
+  }
+
   render() {
     let song = this.currentSong
     let playBg = song.img ? song.img : require('@/assets/imgs/play_bg.jpg')
@@ -106,49 +326,51 @@ class Player extends Component{
     console.log('playBg', playBg)
     return (
       <div className="player-box">
-        <div className="player" ref="player">
-          <div className="singer-middle">
-            <div className="singer-img" ref="singerImg">
-              <img src={playBg} alt={song.name} onLoad={
-                () => {this.playerBgDOM.style.backgroundImage = `url("${playBg}")`}
-              }/>
-            </div>
-          </div>
-
-          <div className="singer-bottom">
-            <div className="controller-wrapper">
-              <div className="progress-wrapper">
-                <span className="current-time">{'00: 00'}</span>
-                <div className="play-progress">
-                  <ProgressBar progress={.4}></ProgressBar>
-                </div>
-                <span className="total-time">{'05.00'}</span>
-              </div>
-
-              <div className="play-wrapper">
-                <div className="play-model-button" onClick={this.switchPlayModel}>
-                  <img src={this.playModels[this.state.currentPlayModel]} alt="播放模式"/>
-                </div>
-                <div className="play-previous-button">
-                  <img src={previousSvg} alt=""/>
-                </div>
-                <div className="play-button" onClick = {this.playOrPause}>
-                  <img src={this.playOrPauseSvg} alt=""/>
-                </div>
-                <div className="play-next-button">
-                  <img src={nextSvg} alt=""/>
-                </div>
-                <div className="play-list-button">
-                  <img src={listPlaySvg} alt=""/>
-                </div>
+        <CSSTransition classNames="player-rotate">
+          <div className="player" ref="player">
+            <div className="singer-middle">
+              <div className="singer-img" ref="singerImg">
+                <img src={playBg} alt={song.name} onLoad={
+                  () => {this.playerBgDOM.style.backgroundImage = `url("${playBg}")`}
+                }/>
               </div>
             </div>
-          </div>
 
-          <div className="player-bg" ref="playerBg"></div>
-          
-          <audio ref="audio"></audio>
-        </div>
+            <div className="singer-bottom">
+              <div className="controller-wrapper">
+                <div className="progress-wrapper">
+                  <span className="current-time">{'00: 00'}</span>
+                  <div className="play-progress">
+                    <ProgressBar progress={.4} onDrag={this.handlerDrag} onDragEnd={this.handlerDragEnd}></ProgressBar>
+                  </div>
+                  <span className="total-time">{'05.00'}</span>
+                </div>
+
+                <div className="play-wrapper">
+                  <div className="play-model-button" onClick={this.switchPlayModel}>
+                    <img src={this.playModels[this.state.currentPlayModel]} alt="播放模式"/>
+                  </div>
+                  <div className="play-previous-button" onClick={this.previous}>
+                    <img src={previousSvg} alt=""/>
+                  </div>
+                  <div className="play-button" onClick = {this.playOrPause}>
+                    <img src={this.playOrPauseSvg} alt=""/>
+                  </div>
+                  <div className="play-next-button" onClick={this.next}>
+                    <img src={nextSvg} alt=""/>
+                  </div>
+                  <div className="play-list-button">
+                    <img src={listPlaySvg} alt=""/>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div className="player-bg" ref="playerBg"></div>
+            
+            <audio ref="audio"></audio>
+          </div>
+        </CSSTransition>
       </div>
     )
   }
