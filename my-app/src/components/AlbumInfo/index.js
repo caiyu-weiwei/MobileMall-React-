@@ -6,7 +6,6 @@ import Loading from '@/common/Loading'
 import { filterSingers } from './config.js'
 import player from './player.png'
 import Scroll from '@/common/Scroll'
-import Player from '@/components/Player'
 import {CSSTransition} from "react-transition-group"
 import { getSongVKey } from '@/api/song.js'
 import './index.css'
@@ -36,7 +35,7 @@ class AlbumInfo extends Component{
     albumScroll.style.top = albumImg.offsetHeight + 55 + 'px'
     getAlbumInfo(this.props.match.params.id)
       .then(res => {
-        console.log(res)
+        console.log('专辑详情', res)
         if (res && res.code === 0) {
           this.setState({
             albumInfo : res.data
@@ -86,6 +85,20 @@ class AlbumInfo extends Component{
       console.log('song', song)
       this.props.changeSong(song)
       this.props.setSongs([song])
+      console.log('selectSong', this.props)
+    }
+  }
+
+  /**
+   * 播放全部
+   */
+  playAll = () => {
+    console.log('播放全部')
+    console.log('this.state.albumInfo', this.state.albumInfo)
+    if (this.state.albumInfo.list.length) {
+      this.props.showPlayer(true)
+      this.props.changeSong(this.state.albumInfo.list[0])
+      this.props.setSongs(this.state.albumInfo.list)
     }
   }
   render() {
@@ -110,7 +123,7 @@ class AlbumInfo extends Component{
               <img src={`http://y.gtimg.cn/music/photo_new/T002R300x300M000${albumInfo.mid}.jpg?max_age=2592000`} alt="专辑"/>
               <div className="album-cover" ref="ablumCover"></div>
             </div>
-            <div className="player-container" ref="playerContainer">
+            <div className="player-container" ref="playerContainer" onClick={this.playAll}>
               <div className="album-player">
                 <img src={player} alt="播放"/>
                 <span>播放全部</span>
@@ -135,8 +148,6 @@ class AlbumInfo extends Component{
                 </div>
               </Scroll>
             </div>
-
-            <Player></Player>
           </div>
           <Loading isShow={this.state.loading} title="拼命加载中..."></Loading>
           

@@ -13,7 +13,7 @@ class Player extends Component{
     /**
      * new 一个当前的歌曲
      */
-    this.currentSong = new Song(0, '', '', '', 0, '', '')
+    this.currentSong = {}
     this.currentIndex = 0
     /**
      * 拖拽进度
@@ -40,6 +40,7 @@ class Player extends Component{
 
   componentDidMount() {
     console.log('this.props.player', this.props)
+    this.playerBoxDOM = ReactDOM.findDOMNode(this.refs.playerBox)
     this.playerDOM = ReactDOM.findDOMNode(this.refs.player)
     this.singerImgDOM = ReactDOM.findDOMNode(this.refs.singerImg)
     this.playerBgDOM = ReactDOM.findDOMNode(this.refs.playerBg)
@@ -49,6 +50,7 @@ class Player extends Component{
      * 当浏览器可以播放音频/视频时
      */
     this.audioDOM.addEventListener('canplay', () => {
+      console.log('canplay', this.props)
       this.audioDOM.play()
       this.startImgRotate()
       this.setState({
@@ -316,21 +318,53 @@ class Player extends Component{
     }
   }
 
+  /**
+   * 隐藏播放器
+   */
+  handleHidePlayer = () => {
+    this.props.showPlayer(false)
+    console.log(this.state.playStatus)
+  }
+
   render() {
+    console.log('this.props1111111', this.props)
+    if (this.props.song) {
+      console.log('this.currentSong', this.currentSong)
+      console.log('this.props.song', this.props.song)
+      if (this.currentSong.id !== this.props.song.albummid) {
+        this.currentSong = this.props.song
+        this.currentSong.url = `http://dl.stream.qqmusic.qq.com/C100001J5QJL1pRQYB.m4a?vkey=91A134958047EC04A21B8BFB7E9107BACB69E05A534FE40D340F735D128ADD558310154230F4BC6CE6710F441F0CB82636782DE73A72ABD4&fromtag=66`
+        this.currentSong.img = `http://y.gtimg.cn/music/photo_new/T002R300x300M000${this.props.song.albummid}.jpg?max_age=2592000`
+      }
+    }
     let song = this.currentSong
+    console.log('song222222222222', song)
     let playBg = song.img ? song.img : require('@/assets/imgs/play_bg.jpg')
     let previousSvg = require('@/assets/imgs/previous.svg')
     
     let nextSvg = require('@/assets/imgs/next.svg')
     let listPlaySvg = require('@/assets/imgs/list_play.svg')
+    let backSvg = require('@/assets/imgs/back.svg')
     console.log('playBg', playBg)
     return (
-      <div className="player-box">
-        <CSSTransition classNames="player-rotate">
+      <div className="player-box" ref="playerBox">
+        <CSSTransition in={this.props.showStatus} classNames="player-rotate" timeout={300}
+          onEnter={() => {this.playerBoxDOM.style.display='block'}}
+          onExited={() => {this.playerBoxDOM.style.display='none'}}
+        >
           <div className="player" ref="player">
+            <div className="player-header">
+              <div className="player-back" onClick={this.handleHidePlayer}>
+                <img src={backSvg} alt="" />
+              </div>
+              <div className="heade-title">
+                {song.songname}
+              </div>
+            </div>
+            <div className="singer-top">{}</div>
             <div className="singer-middle">
               <div className="singer-img" ref="singerImg">
-                <img src={playBg} alt={song.name} onLoad={
+                <img src={playBg} alt={song.songname} onLoad={
                   () => {this.playerBgDOM.style.backgroundImage = `url("${playBg}")`}
                 }/>
               </div>
