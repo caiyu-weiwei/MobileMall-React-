@@ -17,7 +17,7 @@ class Carousel extends Component {
     getCarousel()
       .then(res => {
         if (res.code === 0) {
-          console.log(res)
+          // console.log(res)
           this.setState({
             sliderList: res.data.slider
           })

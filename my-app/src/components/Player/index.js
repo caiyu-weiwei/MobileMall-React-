@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import ReactDOM from 'react-dom'
 import { CSSTransition } from 'react-transition-group'
 import ProgressBar from '@/components/ProgressBar'
-import { Song } from '@/model/song.js'
+// import { Song } from '@/model/song.js'
 import './index.scss'
 
 class Player extends Component{
@@ -27,6 +27,7 @@ class Player extends Component{
 
     this.state = {
       currentTime: 0,
+      duration: 0,
       playProgress: 0,
       playStatus: false,
       currentPlayModel: 0
@@ -39,7 +40,7 @@ class Player extends Component{
   }
 
   componentDidMount() {
-    console.log('this.props.player', this.props)
+    // console.log('this.props.player', this.props)
     this.playerBoxDOM = ReactDOM.findDOMNode(this.refs.playerBox)
     this.playerDOM = ReactDOM.findDOMNode(this.refs.player)
     this.singerImgDOM = ReactDOM.findDOMNode(this.refs.singerImg)
@@ -50,22 +51,23 @@ class Player extends Component{
      * 当浏览器可以播放音频/视频时
      */
     this.audioDOM.addEventListener('canplay', () => {
-      console.log('canplay', this.props)
+      // console.log('canplay', this.props)
       this.audioDOM.play()
       this.startImgRotate()
       this.setState({
+        duration: this.audioDOM.duration,
         playStatus: true
       })
     })
 
     /**
-     * 当目前的播放位置已更改时
+     * 当目前的播放位置已更改时(或者是播放过程中)
      */
     this.audioDOM.addEventListener('timeupdate', () => {
-      console.log(333333333333)
-      console.log('timeupdate', this.audioDOM)
-      console.log('currentTime', this.audioDOM.currentTime)
-      console.log('duration', this.audioDOM.duration)
+      // console.log(333333333333)
+      // console.log('timeupdate', this.audioDOM)
+      // console.log('currentTime', this.audioDOM.currentTime)
+      // console.log('duration', this.audioDOM.duration)
       if (this.state.playStatus) {
         this.setState({
           currentTime: this.audioDOM.currentTime,
@@ -133,7 +135,7 @@ class Player extends Component{
      * 在元素加载期间发生错误时运行脚本
      */
     this.audioDOM.addEventListener('error', (err) => {
-      console.log('error', err)
+      // console.log('error', err)
       alert('加载歌曲出错！')
     })
   }
@@ -185,9 +187,9 @@ class Player extends Component{
    * 开始旋转图片
    */
   startImgRotate = () => {
-    console.log('className', this.singerImgDOM.className)
-    console.log('className', typeof this.singerImgDOM.className)
-    console.log('classList', this.singerImgDOM.classList)
+    // console.log('className', this.singerImgDOM.className)
+    // console.log('className', typeof this.singerImgDOM.className)
+    // console.log('classList', this.singerImgDOM.classList)
     if (!this.singerImgDOM.classList.contains('rotate')) {
       this.singerImgDOM.classList.add('rotate')
     } else {
@@ -210,8 +212,8 @@ class Player extends Component{
   previous = () => {
     let songsLength = this.props.songs.length
     let currentIndex = this.currentIndex
-    console.log('songsLength', songsLength)
-    console.log('currentIndex', currentIndex)
+    // console.log('songsLength', songsLength)
+    // console.log('currentIndex', currentIndex)
     if (songsLength > 1) {
 
       /**
@@ -323,29 +325,45 @@ class Player extends Component{
    */
   handleHidePlayer = () => {
     this.props.showPlayer(false)
-    console.log(this.state.playStatus)
+    // console.log(this.state.playStatus)
+  }
+
+  /**
+   * 时间处理
+   */
+  getTime = (time) => {
+    let minute = 0, second = 0
+    minute = Math.floor(time / 60)
+    second = Math.floor(time - minute * 60)
+    return `${this.formatTime(minute)}:${this.formatTime(second)}`
+  }
+
+  formatTime = (time) => {
+    let timeStr = ''
+    time > 10 ? timeStr = time : timeStr = `0${time}`
+    return timeStr
   }
 
   render() {
-    console.log('this.props1111111', this.props)
+    // console.log('this.props1111111', this.props)
     if (this.props.song) {
-      console.log('this.currentSong', this.currentSong)
-      console.log('this.props.song', this.props.song)
+      // console.log('this.currentSong', this.currentSong)
+      // console.log('this.props.song', this.props.song)
       if (this.currentSong.id !== this.props.song.albummid) {
         this.currentSong = this.props.song
-        this.currentSong.url = `http://dl.stream.qqmusic.qq.com/C100001J5QJL1pRQYB.m4a?vkey=91A134958047EC04A21B8BFB7E9107BACB69E05A534FE40D340F735D128ADD558310154230F4BC6CE6710F441F0CB82636782DE73A72ABD4&fromtag=66`
+        this.currentSong.url = `http://dl.stream.qqmusic.qq.com/C4000044rwqT3FqJka.m4a?vkey=60441B484133806D5B9D1F231CB1E1D297FEB84CFEB3741D6758036E6FB79B4E4091DD92F78F525E191FA7384FE2DD6C69FFCE922A14531D&guid=3655047200&fromtag=66`
         this.currentSong.img = `http://y.gtimg.cn/music/photo_new/T002R300x300M000${this.props.song.albummid}.jpg?max_age=2592000`
       }
     }
     let song = this.currentSong
-    console.log('song222222222222', song)
+    // console.log('song222222222222', song)
     let playBg = song.img ? song.img : require('@/assets/imgs/play_bg.jpg')
     let previousSvg = require('@/assets/imgs/previous.svg')
     
     let nextSvg = require('@/assets/imgs/next.svg')
     let listPlaySvg = require('@/assets/imgs/list_play.svg')
     let backSvg = require('@/assets/imgs/back.svg')
-    console.log('playBg', playBg)
+    // console.log('playBg', playBg)
     return (
       <div className="player-box" ref="playerBox">
         <CSSTransition in={this.props.showStatus} classNames="player-rotate" timeout={300}
@@ -373,11 +391,11 @@ class Player extends Component{
             <div className="singer-bottom">
               <div className="controller-wrapper">
                 <div className="progress-wrapper">
-                  <span className="current-time">{'00: 00'}</span>
+                  <span className="current-time">{this.getTime(this.state.currentTime)}</span>
                   <div className="play-progress">
-                    <ProgressBar progress={.4} onDrag={this.handlerDrag} onDragEnd={this.handlerDragEnd}></ProgressBar>
+                    <ProgressBar progress={this.state.playProgress} onDrag={this.handlerDrag} onDragEnd={this.handlerDragEnd}></ProgressBar>
                   </div>
-                  <span className="total-time">{'05.00'}</span>
+                  <span className="total-time">{this.getTime(this.state.duration)}</span>
                 </div>
 
                 <div className="play-wrapper">

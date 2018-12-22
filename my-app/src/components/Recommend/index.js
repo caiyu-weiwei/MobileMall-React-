@@ -6,7 +6,7 @@ import Albums from '@/components/Albums'
 class Recommend extends Component {
 
   componentDidMount() {
-    console.log('this.props', this.props)
+    // console.log('this.props', this.props)
   }
   render () {
     return (

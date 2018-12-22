@@ -5,7 +5,7 @@ import { showPlayer, changeSong } from '@/redux/actions'
 
 
 const mapStateToProps = state => {
-  console.log('this.props.state', state)
+  // console.log('this.props.state', state)
   return {
     showStatus: state.showStatus,
     song: state.song,

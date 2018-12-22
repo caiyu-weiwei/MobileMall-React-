@@ -22,14 +22,14 @@ class Albums extends Component {
 
   // 获取新专辑数据源
   componentDidMount() {
-    console.log('this.props', this.props)
+    // console.log('this.props', this.props)
     // 计算高度
     let winHeight = document.documentElement.clientHeight - 335 + 'px'
     ReactDom.findDOMNode(this.refs.scrollContainer).style.height = winHeight
     // 获取专辑列表数据源
     getNewAlbums()
     .then(res => {
-      console.log(res)
+      // console.log(res)
       if (res.albumlib.code === 0) {
         let albumsList = res.albumlib.data.list
         albumsList.sort((a, b) => {

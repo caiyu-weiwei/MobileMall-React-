@@ -14,7 +14,7 @@ class Progress extends Component{
     let progressDom = ReactDOM.findDOMNode(this.refs.progress)
     let progressBtnDom = ReactDOM.findDOMNode(this.refs.progressBtn)
     this.progressBarWidth = progressBarDom.offsetWidth
-    console.log('componentDidMount', this.progressBarWidth)
+    // console.log('componentDidMount', this.progressBarWidth)
 
     /**
      * 拖拽初始位置
@@ -36,8 +36,8 @@ class Progress extends Component{
         let touch = e.touches[0]
         dragX = touch.clientX
         buttonLeft = parseInt(touch.target.style.left)
-        console.log('dragX', dragX)
-        console.log('buttonLeft', buttonLeft)
+        // console.log('dragX', dragX)
+        // console.log('buttonLeft', buttonLeft)
         if (onDragStart) onDragStart()
       })
 
@@ -74,7 +74,7 @@ class Progress extends Component{
    * 如果未获取进度条的宽度，可以通过组件更新后再次获取
    */
   componentDidUpdate() {
-    console.log('componentDidUpdate', this.progressBarWidth)
+    // console.log('componentDidUpdate', this.progressBarWidth)
     if (!this.progressBarWidth) this.progressBarWidth = ReactDOM.findDOMNode(this.refs.progressBar).offsetWidth
   }
 
@@ -82,8 +82,8 @@ class Progress extends Component{
     let { progress, disableButton } = this.props
     let progressButtonOffsetLeft = 0
     if (!progress) progress = 0
-    console.log('progress', progress)
-    console.log('this.progressBarWidth', this.progressBarWidth)
+    // console.log('progress', progress)
+    // console.log('this.progressBarWidth', this.progressBarWidth)
     if (this.progressBarWidth) progressButtonOffsetLeft = progress * this.progressBarWidth
 
     return(

@@ -8,6 +8,7 @@ import player from './player.png'
 import Scroll from '@/common/Scroll'
 import {CSSTransition} from "react-transition-group"
 import { getSongVKey } from '@/api/song.js'
+import { getTransitionEndName } from '@/utils/event.js'
 import './index.css'
 
 class AlbumInfo extends Component{
@@ -20,6 +21,7 @@ class AlbumInfo extends Component{
       show: false,
       refresh: false
     }
+    this.musicIcon = require('@/assets/imgs/music.svg')
   }
   /**
    * 获取专辑详情的数据源
@@ -35,8 +37,9 @@ class AlbumInfo extends Component{
     albumScroll.style.top = albumImg.offsetHeight + 55 + 'px'
     getAlbumInfo(this.props.match.params.id)
       .then(res => {
-        console.log('专辑详情', res)
+        // console.log('专辑详情', res)
         if (res && res.code === 0) {
+          this.initMusicIcon()
           this.setState({
             albumInfo : res.data
           }, () => {
@@ -72,7 +75,7 @@ class AlbumInfo extends Component{
   getSongUrl = (song, mId) => {
     getSongVKey(mId)
       .then(res => {
-        console.log(res)
+        // console.log(res)
       })
   }
 
@@ -80,12 +83,13 @@ class AlbumInfo extends Component{
    * 选择歌曲
    */
   selectSong = song =>{
-    return () => {
-      console.log(this.props)
-      console.log('song', song)
+    return (e) => {
+      // console.log(this.props)
+      // console.log('song', song)
       this.props.changeSong(song)
       this.props.setSongs([song])
-      console.log('selectSong', this.props)
+      // console.log('selectSong', this.props)
+      this.startMusicIconAnimation(e.nativeEvent)
     }
   }
 
@@ -93,18 +97,68 @@ class AlbumInfo extends Component{
    * 播放全部
    */
   playAll = () => {
-    console.log('播放全部')
-    console.log('this.state.albumInfo', this.state.albumInfo)
+    // console.log('播放全部')
+    // console.log('this.state.albumInfo', this.state.albumInfo)
     if (this.state.albumInfo.list.length) {
       this.props.showPlayer(true)
       this.props.changeSong(this.state.albumInfo.list[0])
       this.props.setSongs(this.state.albumInfo.list)
     }
   }
+
+  /**
+   * 音符初始化
+   */
+  initMusicIcon = () => {
+    this.musicIcons = []
+    this.musicIcons.push(ReactDOM.findDOMNode(this.refs.musicIcon1))
+    this.musicIcons.push(ReactDOM.findDOMNode(this.refs.musicIcon2))
+    this.musicIcons.push(ReactDOM.findDOMNode(this.refs.musicIcon3))
+    this.musicIcons.map(item => {
+      item.run = false
+      let transitionEndName = getTransitionEndName(item)
+
+      item.addEventListener(transitionEndName, () => {
+
+        item.run = false
+        item.style['transform'] = 'translate3d(0, 0, 0)'
+        item.style['webkitTransform'] = 'translate3d(0, 0, 0)'
+        item.style.display = 'none'
+        let icon = item.querySelector('div')
+        icon.style['transform'] = 'translate3d(0, 0 ,0)'
+        icon.style['webkitTransform'] = 'translate3d(0, 0 ,0)'
+      })
+    })
+  }
+  /**
+   * 音符开始动画
+   */
+  startMusicIconAnimation = ({clientX, clientY}) => {
+    if (this.musicIcons.length) {
+      for (let i = 0, len = this.musicIcons.length; i < len; i++) {
+        let item = this.musicIcons[i]
+        if (!item.run) {
+          item.style.top = clientY + 'px'
+          item.style.left = clientX + 'px'
+          item.style.display = 'inline-block'
+          setTimeout(() => {
+            item.run = true
+            item.style['transform'] = 'translate3d(0, 1000px, 0)'
+            item.style['webkitTransform'] = 'translate3d(0, 1000px, 0)'
+            let icon = item.querySelector('div')
+            icon.style['transform'] = 'translate3d(-30px, 0, 0)'
+            icon.style['webkitTransform'] = 'translate3d(-30px, 0, 0)'
+          }, 20)
+          break
+        }
+      }
+    }
+  }
+
   render() {
     let albumInfo = this.state.albumInfo
-    console.log('albumInfo', this.state.albumInfo)
-    console.log('list', this.state.albumInfo.list)
+    // console.log('albumInfo', this.state.albumInfo)
+    // console.log('list', this.state.albumInfo.list)
     if (albumInfo && albumInfo.list) {
       this.songs = albumInfo.list.map(song => (
         <div className="song-list" key={song.songmid} onClick={this.selectSong(song)}>
@@ -150,7 +204,21 @@ class AlbumInfo extends Component{
             </div>
           </div>
           <Loading isShow={this.state.loading} title="拼命加载中..."></Loading>
-          
+          <div className="music-ico" ref="musicIcon1">
+            <div>
+              <img src={this.musicIcon} alt=""/>
+            </div>
+          </div>
+          <div className="music-ico" ref="musicIcon2">
+            <div>
+              <img src={this.musicIcon} alt=""/>
+            </div>
+          </div>
+          <div className="music-ico" ref="musicIcon3">
+            <div>
+              <img src={this.musicIcon} alt=""/>
+            </div>
+          </div>
         </div>
       </CSSTransition>
     )

@@ -15,7 +15,6 @@
     "babel-loader": "8.0.4",
     "babel-plugin-named-asset-import": "^0.2.2",
     "babel-preset-react-app": "^5.0.4",
-    "better-scroll": "^1.5.5",
     "bfj": "6.1.1",
     "case-sensitive-paths-webpack-plugin": "2.1.2",
     "chalk": "2.4.1",
@@ -127,6 +126,7 @@
   "devDependencies": {
     "@babel/plugin-transform-runtime": "^7.1.0",
     "babel-plugin-import": "^1.10.0",
+    "better-scroll": "^1.6.0",
     "less": "^3.8.1",
     "less-loader": "^4.1.0",
     "node-sass": "^4.11.0",
